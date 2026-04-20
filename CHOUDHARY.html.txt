@@ -1,103 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHOUDHARY APPS</title>
+<title>Choudhary Apps</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #f0f2f5;
-    }
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  margin: 0;
+  text-align: center;
+}
 
-    header {
-      background: #111;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+.header {
+  background: #020617;
+  padding: 15px;
+  font-size: 24px;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
+.container {
+  max-width: 400px;
+  margin: auto;
+}
 
-    section {
-      padding: 40px 20px;
-      text-align: center;
-    }
+.app-card {
+  background: #1e293b;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 15px;
+}
 
-    .btn {
-      background: #ff5722;
-      color: white;
-      padding: 12px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-      display: inline-block;
-      margin-top: 15px;
-    }
+button {
+  padding: 10px 20px;
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+input, textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+}
 
-    .box {
-      background: white;
-      padding: 20px;
-      margin: 10px;
-      width: 260px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+.review-box {
+  background: #334155;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
 
-    footer {
-      background: #111;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-  </style>
+.popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: orange;
+  padding: 15px;
+  border-radius: 10px;
+  display: none;
+}
+</style>
+
 </head>
 
 <body>
 
-<header>
-  <h1>CHOUDHARY APPS</h1>
-  <p>Best Apps & Tools in One Place</p>
-  <a href="#" class="btn">Download App</a>
-</header>
+<div class="header">🚀 CHOUDHARY APPS</div>
 
-<section>
-  <h2>🔥 Our Features</h2>
-  <div class="container">
-    <div class="box">Easy to Use Apps</div>
-    <div class="box">Fast Performance</div>
-    <div class="box">100% Free Tools</div>
-  </div>
-</section>
+<div class="container">
 
-<section>
-  <h2>📘 How To Use</h2>
-  <div class="container">
-    <div class="box">Step 1: Open App</div>
-    <div class="box">Step 2: Enter Details</div>
-    <div class="box">Step 3: Get Result</div>
-  </div>
-</section>
+<div class="app-card">
+  <h2>My App</h2>
+  <p>Version: <span id="version"></span></p>
+  <p>Downloads: <span id="downloads">0</span></p>
 
-<section>
-  <h2>🚀 Download Now</h2>
-  <p>Click below to download our app</p>
-  <a href="#" class="btn">Download</a>
-</section>
+  <a id="downloadLink" href="#">
+    <button onclick="downloadApp()">Download</button>
+  </a>
+</div>
 
-<footer>
-  <p>© 2026 CHOUDHARY APPS | All Rights Reserved</p>
-</footer>
+<h3>⭐ Reviews</h3>
+
+<input id="name" placeholder="Your Name">
+<textarea id="review" placeholder="Write review..."></textarea>
+<button onclick="addReview()">Submit</button>
+
+<div id="reviews"></div>
+
+</div>
+
+<div class="popup" id="updatePopup">
+  🔔 New Update Available!
+  <br><br>
+  <button onclick="downloadApp()">Update Now</button>
+</div>
+
+<script>
+// 🔥 SETTINGS
+const latestVersion = "1.1";
+const apkLink = "YOUR_APK_LINK_HERE";
+
+// VERSION SYSTEM
+let currentVersion = localStorage.getItem("appVersion") || "1.0";
+document.getElementById("version").innerText = latestVersion;
+
+if(currentVersion !== latestVersion){
+  document.getElementById("updatePopup").style.display = "block";
+}
+
+// DOWNLOAD COUNTER
+let downloads = localStorage.getItem("downloads") || 0;
+document.getElementById("downloads").innerText = downloads;
+
+function downloadApp(){
+  downloads++;
+  localStorage.setItem("downloads", downloads);
+  localStorage.setItem("appVersion", latestVersion);
+  window.location.href = apkLink;
+}
+
+// REVIEWS SYSTEM
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+function addReview(){
+  let name = document.getElementById("name").value;
+  let review = document.getElementById("review").value;
+
+  if(name && review){
+    reviews.push({name, review});
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+    displayReviews();
+  }
+}
+
+function displayReviews(){
+  let html = "";
+  reviews.forEach(r => {
+    html += `<div class="review-box"><b>${r.name}</b><br>${r.review}</div>`;
+  });
+  document.getElementById("reviews").innerHTML = html;
+}
+
+displayReviews();
+
+// DOWNLOAD LINK
+document.getElementById("downloadLink").href = apkLink;
+
+</script>
 
 </body>
 </html>
