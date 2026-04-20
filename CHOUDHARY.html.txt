@@ -102,7 +102,7 @@ input, textarea {
 <script>
 // 🔥 SETTINGS
 const latestVersion = "1.1";
-const apkLink = "YOUR_APK_LINK_HERE";
+const apkLink = sha256:382f14b40585b675b88b9144fedfc3a104a315f21d2e6f29fd5d200abef56641
 
 // VERSION SYSTEM
 let currentVersion = localStorage.getItem("appVersion") || "1.0";
